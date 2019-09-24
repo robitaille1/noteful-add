@@ -3,6 +3,11 @@ import ApiContext from '../ApiContext'
 import config from '../config'
 
 export default class AddNote extends Component {
+  static defaultProps = {
+    history: {
+      push: () => { }
+    },
+  }
     static contextType = ApiContext;
   
     handleSubmit = (event) => {
@@ -26,6 +31,7 @@ export default class AddNote extends Component {
         })
         .then(note => {
           this.context.addNote(note)
+          this.props.history.push(`/folder/${note.folderId}`)
         })
         .catch(error => {
           console.error({ error })

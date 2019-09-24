@@ -11,9 +11,9 @@ export default class AddFolder extends Component {
       }
     static contextType = ApiContext;
 
-    submitForm = (event) => {
+    handleSubmit = (event) => {
         event.preventDefault();
-        const folder = {
+        const newFolder = {
             name: event.target['folderName'].value
         }
         fetch(`${config.API_ENDPOINT}/folders`, {
@@ -21,11 +21,12 @@ export default class AddFolder extends Component {
             headers: {
                 'content-type': 'application/json'
             },
-            body: JSON.stringify(folder),
+            body: JSON.stringify(newFolder),
         })
-            .then(response => {
-                if (response.ok)
-                    return response.json().then(e => Promise.reject(e))
+            .then(res => {
+                if (!res.ok)
+                return res.json().then(event => Promise.reject(event))
+                return res.json()
             })
             .then(folder => {
                 this.context.addFolder(folder)
@@ -40,14 +41,15 @@ export default class AddFolder extends Component {
         return(
             <div className='AddFolder'>
             <h2>Create a new folder!</h2>
-            <form onSubmit={this.submitForm}>
+            <form onSubmit={this.handleSubmit}>
                 <fieldset>
                     <label htmlFor='folderNameInput'>
                         Name:
                     </label>
                     <input
                         type='text'
-                        name='folderName' />
+                        name='folderName'
+                        id='folderNameInput' />
                     <button             
                         type='submit'>
                         Submit
