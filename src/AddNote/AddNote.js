@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import ApiContext from '../ApiContext'
 import config from '../config'
+import './AddNote.css'
 
 export default class AddNote extends Component {
   static defaultProps = {
@@ -42,23 +43,23 @@ export default class AddNote extends Component {
       const { folders=[] } = this.context
       return (
         <section className='AddNote'>
-          <h2>Create a note</h2>
+          <h2 className='addNoteHeader'>Create a note</h2>
           <form onSubmit={this.handleSubmit}>
             <div>
-              <label htmlFor='nameInput'>
-                Name
+              <label className='addformLabel' htmlFor='nameInput'>
+                Name:  
               </label>
               <input type='text' id='nameInput' name='noteName' />
             </div>
             <div>
-              <label htmlFor='noteContent'>
-                Content
+              <label className='addformLabel' htmlFor='noteContent'>
+                Content:  
               </label>
               <textarea id='noteContent' name='noteContent' />
             </div>
             <div>
-              <label htmlFor='selectFolder'>
-                Folder
+              <label className='addformLabel' htmlFor='folderSelect'>
+                Folder:  
               </label>
               <select id='folderSelect' name='folderId'>
                 <option value={null}>...</option>
