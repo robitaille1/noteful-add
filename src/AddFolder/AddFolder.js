@@ -2,14 +2,35 @@ import React, { Component } from 'react'
 import ApiContext from '../ApiContext'
 import config from '../config'
 import './AddFolder.css'
+import ValidationError from '../ValidationError/ValidationError'
 
 
 export default class AddFolder extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            name: {
+                value: '',
+                touched: false
+            }
+        }
+    }
     static defaultProps = {
         history: {
           push: () => { }
         },
       }
+    updateFolderName(name) {
+        this.setState({name: {value: name, touched: true}} )
+    }  
+
+    validateFolderName(fieldValue) {
+        const name = this.state.name.value.trim();
+        if (name.length === 0) {
+            return 'Name is required';
+        }
+    }
+
     static contextType = ApiContext;
 
     handleSubmit = (event) => {
@@ -39,6 +60,7 @@ export default class AddFolder extends Component {
     }
 
     render() {
+        const nameError = this.validateFolderName();
         return(
             <div className='AddFolder'>
             <h2>Create a new folder!</h2>
@@ -50,9 +72,15 @@ export default class AddFolder extends Component {
                     <input
                         type='text'
                         name='folderName'
-                        id='folderNameInput' />
+                        id='folderNameInput'
+                        onChange={e => this.updateFolderName(e.target.value)} />
+                    {this.state.name.touched && (
+                        <ValidationError 
+                            message={nameError}/>
+                    )}
                     <button             
-                        type='submit'>
+                        type='submit'
+                        disabled={this.validateFolderName()}>
                         Submit
                     </button>
                 </fieldset>
