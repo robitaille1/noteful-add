@@ -54,6 +54,7 @@ export default class AddNote extends Component {
         name: event.target['noteName'].value,
         content: event.target['noteContent'].value,
         folderId: event.target['folderId'].value,
+        modified: new Date()
       }
       fetch(`${config.API_ENDPOINT}/notes`, {
         method: 'POST',
