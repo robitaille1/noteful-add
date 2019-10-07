@@ -19,8 +19,8 @@ export default class NotePageMain extends React.Component {
 
   render() {
     const { notes=[] } = this.context
-    const { noteId } = this.props.match.params
-    const note = findNote(notes, noteId) || { content: '' }
+    const { note_id } = this.props.match.params
+    const note = findNote(notes, note_id) || { content: '' }
     return (
       <section className='NotePageMain'>
         <NoteError>
@@ -35,6 +35,7 @@ export default class NotePageMain extends React.Component {
           {note.content.split(/\n \r|\n/).map((para, i) =>
             <p key={i}>{para}</p>
           )}
+          
         </div>
       </section>
     )
